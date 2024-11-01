@@ -8,6 +8,14 @@ class Button extends React.Component {
   }
 }
 
+// create function component start
+const ButttonBlack = () => {
+  return (
+    <button className="h-10 px-6 font-semibold bg-red-500 text-white rounded-md">Buy Now</button>
+  )
+}
+// create function component end
+
 
 function App() {
   return (
@@ -16,6 +24,7 @@ function App() {
         <Button  />
         <Button />
         <Button />
+        <ButttonBlack />
       </div>
     </div>
    
