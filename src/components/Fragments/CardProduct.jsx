@@ -17,11 +17,11 @@ const HeaderCard = (props) => {
 };
 
 const BodyCard = (props) => {
-	const {children, title} = props;
+	const {children, name} = props;
   return (
     <div className="px-5 py-5">
       <a href="" className="font-bold text-xl tracking-tight text-gray-900">
-        {title}
+        {name}
       </a>
       <p className="font-sm text-slate-500 text-justify">
        {children}
