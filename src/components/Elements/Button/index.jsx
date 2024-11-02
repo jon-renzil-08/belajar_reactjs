@@ -1,8 +1,10 @@
 const Button = (props) => {
-  const { children, color } = props;
+  const { children, color, onClick = () => {}, type="button" } = props;
   return (
-    <button className={`h-10 px-6 ${color} text-white rounded-md w-full `}>
+    <button type={type} className={`h-10 px-6 ${color} text-white rounded-md w-full `} 
+    onClick={() => onClick()}>
       {children}
+      
     </button>
   );
 };
