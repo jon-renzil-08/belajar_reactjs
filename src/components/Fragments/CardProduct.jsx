@@ -1,3 +1,5 @@
+import Products from "../../pages/products";
+import Button from "../Elements/Button";
 const CardProduct = (props) => {
 	const {children} = props;
   return (
@@ -31,16 +33,11 @@ const BodyCard = (props) => {
 };
 
 const FooterCard = (props) => {
-	const {price} = props;
+	const {price, handleAddToCart, id} = props;
   return (
     <div className="flex items-center justify-between px-5 pb-5">
-      <span className="text-3xl font-bold text-gray-900">{price}</span>
-      <a
-        href=""
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-      >
-        Add to cart
-      </a>
+      <span className="text-xl font-bold text-gray-900">{price.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})}</span>
+      <Button color="bg-black hover:shadow-lg font-semibold w-40" onClick={() =>handleAddToCart(id)}  >Add to cart</Button>
     </div>
   );
 };
