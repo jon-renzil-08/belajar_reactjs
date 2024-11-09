@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
-
+import Counter from "../components/Fragments/Counter";
 const products = [
   {
     id: 1,
@@ -33,7 +33,7 @@ const handleLogout = () => {
 const Products = () => {
   return (
     <Fragment>
-      <div className="bg-blue-600 w-full h-20 flex items-center justify-end px-3">
+      <div className="bg-blue-600 w-full h-20 flex items-center justify-end px-3 ">
         <div className="flex gap-5 items-center">
           <span className="text-white">{email}</span>
         <Button onClick={handleLogout} color="bg-black hover:shadow-lg font-semibold">Logout</Button>
@@ -49,6 +49,9 @@ const Products = () => {
             <CardProduct.FooterCard price={product.price} />
           </CardProduct>
         ))}
+      </div>
+      <div className="flex justify-center mb-3">
+        <Counter></Counter>
       </div>
     </Fragment>
   );
