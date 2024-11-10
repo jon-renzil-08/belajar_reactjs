@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
+import Counter from "../components/Fragments/Counter";
 
 const products = [
   {
@@ -64,6 +65,8 @@ const Products = () => {
       setCart([...cart, { id: id, qty: 1 }]);
     }
   };
+
+
 
   return (
     <Fragment>
@@ -135,9 +138,9 @@ const Products = () => {
         </div>
       </div>
 
-      {/* <div className="flex justify-center mb-3">
+      <div className="flex justify-center mb-3">
         <Counter></Counter>
-      </div> */}
+      </div>
     </Fragment>
   );
 };
