@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
 import Counter from "../components/Fragments/Counter";
@@ -47,12 +47,45 @@ const Products = () => {
     window.location.href = "/login";
   };
 
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      qty: 1,
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [qty, setQty] = useState(0);
+
+  // useEffect untuk menambahkan cart starts defaults
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+
+  // useEffect untuk menambahkan cart ends defaults
+
+
+  // useEffect untuk menambahkan total harga starts
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((ass, item) => {
+        const product = products.find((product) => product.id === item.id);
+        return ass + product.price * item.qty;
+      }, 0);
+      setTotalPrice(sum);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+    }
+  }, [cart])
+
+  // useEffect untuk menambahkan total harga ends
+
+
+
+  // useEffect untuk menambahkan qty starts
+
+  useEffect(() => {
+    const sumQty = cart.reduce((ass, item) => {
+      return ass + item.qty;
+    }, 0);
+    setQty(sumQty);
+  }, [cart])
+
+  // useEffect untuk menambahkan qty ends
 
   const handleAddToCart = (id) => {
     if (cart.find((item) => item.id === id)) {
@@ -65,8 +98,6 @@ const Products = () => {
       setCart([...cart, { id: id, qty: 1 }]);
     }
   };
-
-
 
   return (
     <Fragment>
@@ -129,10 +160,24 @@ const Products = () => {
                         currency: "IDR",
                       })}
                     </td>
-                    
                   </tr>
                 );
               })}
+              <tr>
+                <td colSpan={2}>
+                  <b>Total Price</b>
+                </td>
+                <td><b>{qty}</b></td>
+                <td>
+                  <b>
+                    {(totalPrice).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
+                  </b>
+                </td>
+              
+              </tr>
             </tbody>
           </table>
         </div>
