@@ -13,7 +13,7 @@ const HeaderCard = (props) => {
 	const {image} = props;
   return (
     <a href="">
-     <img src={image} alt="Product Image" className="p-8 rounded-t-lg" />
+     <img src={image} alt="Product Image" className="p-8 rounded-t-lg w-full h-60 object-cover" />
     </a>
   );
 };
@@ -26,7 +26,7 @@ const BodyCard = (props) => {
         {name}
       </a>
       <p className="font-sm text-slate-500 text-justify">
-       {children}
+       {children.substring(0, 50)}...
       </p>
     </div>
   );
@@ -37,7 +37,7 @@ const FooterCard = (props) => {
   return (
     <div className="flex items-center justify-between px-5 pb-5">
       <span className="text-xl font-bold text-gray-900">{price.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})}</span>
-      <Button color="bg-black hover:shadow-lg font-semibold w-40" onClick={() =>handleAddToCart(id)}  >Add to cart</Button>
+      <Button color="bg-black hover:shadow-lg font-semibold  w-1/2" onClick={() =>handleAddToCart(id)}  >Add to cart</Button>
     </div>
   );
 };

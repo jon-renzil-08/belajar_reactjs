@@ -2,41 +2,42 @@ import { Fragment, useEffect, useState } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
 import Counter from "../components/Fragments/Counter";
+import { getProducts } from "../services/product.service";
 
-const products = [
-  {
-    id: 1,
-    name: "Sepatu Sneakers",
-    image: "/images/shoes1.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
-    price: 1000000,
-  },
-  {
-    id: 2,
-    name: "Sepatu Nike",
-    image: "/images/shoes1.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
-    price: 20000000,
-  },
-  {
-    id: 3,
-    name: "Sepatu Adidas",
-    image: "/images/shoes1.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
-    price: 3000000,
-  },
-  {
-    id: 4,
-    name: "Sepatu Adidas",
-    image: "/images/shoes1.jpg",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
-    price: 4000000,
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: "Sepatu Sneakers",
+//     image: "/images/shoes1.jpg",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
+//     price: 1000000,
+//   },
+//   {
+//     id: 2,
+//     name: "Sepatu Nike",
+//     image: "/images/shoes1.jpg",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
+//     price: 20000000,
+//   },
+//   {
+//     id: 3,
+//     name: "Sepatu Adidas",
+//     image: "/images/shoes1.jpg",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
+//     price: 3000000,
+//   },
+//   {
+//     id: 4,
+//     name: "Sepatu Adidas",
+//     image: "/images/shoes1.jpg",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, aut temporibus neque eius repellendus illo id numquam natus facilis provident?",
+//     price: 4000000,
+//   },
+// ];
 
 const email = localStorage.getItem("email");
 
@@ -50,6 +51,7 @@ const Products = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [qty, setQty] = useState(0);
+  const [products, setProducts] = useState([]);
 
   // useEffect untuk menambahkan cart starts defaults
   useEffect(() => {
@@ -61,7 +63,7 @@ const Products = () => {
 
   // useEffect untuk menambahkan total harga starts
   useEffect(() => {
-    if (cart.length > 0) {
+    if (products.length > 0 && cart.length > 0) {
       const sum = cart.reduce((ass, item) => {
         const product = products.find((product) => product.id === item.id);
         return ass + product.price * item.qty;
@@ -70,7 +72,7 @@ const Products = () => {
       localStorage.setItem("cart", JSON.stringify(cart));
 
     }
-  }, [cart])
+  }, [cart, products])
 
   // useEffect untuk menambahkan total harga ends
 
@@ -86,6 +88,14 @@ const Products = () => {
   }, [cart])
 
   // useEffect untuk menambahkan qty ends
+
+  // useEffect untuk mengambil data api products starts
+  useEffect(() => {
+    getProducts((data) => {
+      setProducts(data);
+    })
+  }, []);
+  // useEffect untuk mengambil data api products ends
 
   const handleAddToCart = (id) => {
     if (cart.find((item) => item.id === id)) {
@@ -114,10 +124,10 @@ const Products = () => {
       </div>
       <div className="flex gap-3 my-3 mx-3">
         <div className="w-3/4 flex flex-wrap gap-3">
-          {products.map((product) => (
+          {products.length > 0 && products.map((product) => (
             <CardProduct key={product.id}>
               <CardProduct.HeaderCard image={product.image} />
-              <CardProduct.BodyCard name={product.name}>
+              <CardProduct.BodyCard name={product.title}>
                 {product.description}
               </CardProduct.BodyCard>
               <CardProduct.FooterCard
@@ -140,14 +150,15 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => {
+              {products.length > 0 && cart.map((item) => {
                 const product = products.find(
                   (product) => product.id === item.id
                 );
                 return (
                   <tr key={item.id}>
-                    <td>{product.name}</td>
+                    <td>{product.title}</td>
                     <td>
+                      
                       {product.price.toLocaleString("id-ID", {
                         style: "currency",
                         currency: "IDR",
