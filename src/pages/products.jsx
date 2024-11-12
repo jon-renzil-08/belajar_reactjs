@@ -3,6 +3,7 @@ import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
 import Counter from "../components/Fragments/Counter";
 import { getProducts } from "../services/product.service";
+import { getUsername } from "../services/auth.service";
 
 // const products = [
 //   {
@@ -39,11 +40,11 @@ import { getProducts } from "../services/product.service";
 //   },
 // ];
 
-const email = localStorage.getItem("email");
+const token = localStorage.getItem("token");
 
 const Products = () => {
   const handleLogout = () => {
-    localStorage.removeItem("email");
+    localStorage.removeItem("token");
     localStorage.removeItem("password");
     window.location.href = "/login";
   };
@@ -52,6 +53,8 @@ const Products = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [qty, setQty] = useState(0);
   const [products, setProducts] = useState([]);
+  const [username, setUsername] = useState([]);
+  
 
   // useEffect untuk menambahkan cart starts defaults
   useEffect(() => {
@@ -59,6 +62,10 @@ const Products = () => {
   }, []);
 
   // useEffect untuk menambahkan cart ends defaults
+
+  useEffect(() => {
+    setUsername(getUsername(token));
+  }, []);
 
 
   // useEffect untuk menambahkan total harga starts
@@ -113,7 +120,7 @@ const Products = () => {
     <Fragment>
       <div className="bg-blue-600 w-full h-20 flex items-center justify-end px-3 ">
         <div className="flex gap-5 items-center">
-          <span className="text-white">{email}</span>
+          <span className="text-white font-bold text-xl">{username}</span>
           <Button
             onClick={handleLogout}
             color="bg-black hover:shadow-lg font-semibold"
