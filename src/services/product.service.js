@@ -9,6 +9,7 @@ export const getProducts = (callback) => {
     .catch((err) => {
       console.log(err);
     });
+    axios.post("https://fakestoreapi.com/products");
 };
 
 
